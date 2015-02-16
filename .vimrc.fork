@@ -1,0 +1,224 @@
+" Modeline and Notes {
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
+"
+"                    __ _ _____              _
+"         ___ _ __  / _/ |___ /      __   __(_)_ __ ___
+"        / __| '_ \| |_| | |_ \ _____\ \ / /| | '_ ` _ \
+"        \__ \ |_) |  _| |___) |_____|\ V / | | | | | | |
+"        |___/ .__/|_| |_|____/        \_/  |_|_| |_| |_|
+"            |_|
+"
+"   This is the personal .vimrc.fork file of Vincent Yang.
+"   While much of it is beneficial for personal use, for overriding
+"   some settings setted in .vimrc, I would
+"   recommend picking out the parts you want and understand.
+"
+"   Copyright 2015 Wensheng Yang
+"
+"   Licensed under the Apache License, Version 2.0 (the "License");
+"   you may not use this file except in compliance with the License.
+"   You may obtain a copy of the License at
+"
+"       http://www.apache.org/licenses/LICENSE-2.0
+"
+"   Unless required by applicable law or agreed to in writing, software
+"   distributed under the License is distributed on an "AS IS" BASIS,
+"   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+"   See the License for the specific language governing permissions and
+"   limitations under the License.
+" }
+
+" General {
+
+    set background=light
+
+    set nospell                           " Spell checking off
+
+    set gdefault                        " let :s command default with 'g'
+
+    " Setting up the directories {
+        set nobackup                  " Backups aren't need ...
+        set autowrite
+        set formatoptions+=mMj          " let vim can break chinese and join
+    " }
+
+" }
+
+" Vim UI {
+    set cursorcolumn                 " Highlight current column
+    set nofoldenable                  " close auto fold code
+    "浏览档案的目录，GUI 版本始有。预设是上一次浏览的目录。就是 GUI版本功能表上的 [File] -> [Open] 会打开的目录。
+    set bsdir=buffer
+" }
+
+" Formatting {
+    set wrap                          " Wrap long lines
+    set linebreak
+" }
+
+" Key (re)Mappings {
+    " fast reloading of .vimrc
+    nmap <silent> <leader>S :source $HOME/.vimrc<CR>
+
+    " scroll page useing space
+    nmap <Space> <C-F>
+    nmap <S-Space> <C-B>
+
+    " use ALT+[jk] to moving lines up and down
+    nmap <M-j> mz:m+<CR>`z
+    nmap <M-k> mz:m-2<CR>`z
+
+    nmap <C-s-tab> :bp<CR>
+    nmap <C-tab> :bn<CR>
+    nmap <leader>Q :bd<CR>
+    nmap <leader>qq :bp\|bd#<CR>
+    nmap <leader>qa :bufdo bd<CR>
+
+    command! BcloseOthers call <SID>BufCloseOthers()
+    function! <SID>BufCloseOthers()
+       let l:currentBufNum   = bufnr("%")
+       let l:alternateBufNum = bufnr("#")
+       for i in range(1,bufnr("$"))
+         if buflisted(i)
+           if i!=l:currentBufNum
+             execute("bdelete ".i)
+           endif
+         endif
+       endfor
+    endfunction
+    nmap <leader>qo :BcloseOthers<CR>
+
+    "使用CTRL+[hjkl]在窗口间导航
+    map <C-c> <C-W>c
+    map <C-j> <C-W>j
+    map <C-k> <C-W>k
+    map <C-h> <C-W>h
+    map <C-l> <C-W>l
+
+" }
+
+" Plugins {
+
+    " MRU {
+        if exists(':MRU')
+            " let MRU_File = 'd:\myhome\_vim_mru_files' " default $HOME/.vim_mru_files for Unix-like systems and $USERPROFILE/_vim_mru_files
+            " for MS-Windows systems.
+            " let MRU_Max_Entries = 1000  " default is 100
+
+            " pumvisible() ? "\let" : "\let MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*'  " For Unix
+            " let MRU_Exclude_Files "= '^c:\\temp\\.*'           " For MS-Windows
+
+            " let MRU_Include_Files = '\.c$\|\.h$' "default is empty string
+
+            let MRU_Window_Height = 15 "default is 8"
+
+            " let MRU_Use_Current_Window = 1 " default is 0
+
+            " let MRU_Auto_Close = 0 " default is 1
+
+            " let MRU_Add_Menu = 0 " default 1
+            " let MRU_Max_Menu_Entries = 20  " default 10
+            " let MRU_Max_Submenu_Entries = 15 " default 10
+        endif
+    " }
+
+    " Session List {
+        "set sessionoptions-=black       "default,空窗口"
+        "set sessionoptions-=buffers     "default, 隐藏和卸载的缓冲区，不光是那些在窗口里的"
+        "set sessionoptions-=curdir      "default,当前目录"
+        "set sessionoptions-=folders     "default, 手动建立的折叠、打开/关闭的折叠和局部折叠选项"
+        "set sessionoptions+=globals     "大写字母开头且包含至少一个小写字母的全局变量。只保存字串和数值类型。"
+        "set sessionoptions-=help        "default,帮助窗口"
+        "set sessionoptions+=localoptions   "局部于窗口或缓冲区的选项和映射 (不是局部选项的全局值)"
+        "set sessionoptions-=options     "default,所有的选项和映射 (也包括局部选项的全局值)"
+        set sessionoptions+=resize      "Vim 窗口的大小: 'lines' 和 'columns'"
+        "set sessionoptions+=sesdir      "会话文件所在的目录会成为当前目录 (用于通过网络访问别的统的项目)"
+        set sessionoptions+=slash       "文件名里的反斜杠被替换成正斜杠"
+        "set sessionoptions-=tabpages    "default,所有标签页；如果不包含，只恢复当前标签页。这样你可以为每个标签页分别保存一个会话"
+        set sessionoptions+=unix        "使用 Unix 换行格式 (单个 <NL>)，即使在 Windows 或 DOS上也是如此"
+        "set sessionoptions+=winpos      "整个 Vim 窗口的位置"
+        "set sessionoptions-=winsize     "default,窗口大小"
+        "       不要同时包含 "curdir" 和 "sesdir"。
+        "       如果既没有包含 "curdir" 也没有包含 "sesdir"，使用绝对路径保存文件名。
+        "       "slash" 和 "unix" 可用于 Windows 系统中，如果要和 Unix 共享会话文件的
+        "       话。Unix 版本的 Vim 不能执行 dos 格式的脚本，但是 Windows 版本的 Vim
+        "       可以执行 unix 版本的脚本。
+    " }
+
+    " SnipMate {
+        " Setting the author var
+        let g:snips_author = 'Vincent Yang <idvincentyang@gmail.com>'
+    " }
+
+    if exists(":Tabularize")    " tabular "
+        function! s:align()
+          let p = '^\s*|\s.*\s|\s*$'
+          if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+            let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+            let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+            Tabularize/|/l1
+            normal! 0
+            call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+          endif
+        endfunction
+
+        inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+    endif
+
+    if exists(':Unite') " Unite "
+
+        let g:unite_source_history_yank_enable = 1
+        " call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+        nnoremap <Leader>F  :<C-u>Unite -no-split -buffer-name=unite_grep grep<CR>
+        nnoremap <Leader>fb :<C-u>Unite -no-split -buffer-name=unite_buffer -start-insert buffer<CR>
+        nnoremap <Leader>fd :<C-u>UniteWithProjectDir -no-split -buffer-name=unite_directory -start-insert directory<CR>
+        nnoremap <Leader>ff :<C-u>UniteWithProjectDir -no-split -buffer-name=unite_file_rec -start-insert file_rec/async<CR>
+        nnoremap <Leader>fg :<C-u>UniteWithProjectDir -no-split -buffer-name=unite_file_git -start-insert file_rec/git<CR>
+        nnoremap <Leader>fl :<C-u>Unite -no-split -buffer-name=unite_line -start-insert line<CR>
+        nnoremap <Leader>fo :<C-u>Unite -no-split -buffer-name=unite_outline -start-insert outline<CR>
+        nnoremap <leader>fr :<C-u>Unite -no-split -buffer-name=unite_register register<CR>
+        nnoremap <Leader>fs :<C-u>Unite -no-split -buffer-name=unite_source -start-insert source<CR>
+        nnoremap <Leader>ft :<C-u>Unite -buffer-name=unite_tab tab<CR>
+        nnoremap <Leader>fw :<C-u>Unite -buffer-name=unite_window window<CR>
+
+        " Custom mappings for the unite buffer
+        function! s:unite_settings()
+            " Play nice with supertab
+            "let b:SuperTabDisabled=1
+            nmap <buffer> <C-J> <Plug>(unite_loop_cursor_down)
+            nmap <buffer> <C-K> <Plug>(unite_loop_cursor_up)
+            imap <buffer> <C-J> <Plug>(unite_insert_leave)<C-J>
+            imap <buffer> <C-K> <Plug>(unite_insert_leave)<C-K>
+            nmap <buffer> <F5> <Plug>(unite_redraw)
+            imap <buffer> <F5> <Plug>(unite_redraw)
+
+            "imap <buffer> <LocalLeader><BS> <Plug>(unite_delete_backward_path)
+            "imap <buffer> ; <Plug>(unite_delete_backward_word)
+            "inoremap <buffer><expr> <LocalLeader>/ unite#do_action('narrow')
+
+            let unite = unite#get_current_unite()
+            if index(unite.source_names, 'file') > -1 || index(unite.source_names, 'file_mru') > -1
+              "nnoremap <silent><buffer><expr> <LocalLeader><CR> unite#do_action('open')
+              "inoremap <silent><buffer><expr> <LocalLeader><CR> unite#do_action('open')
+            endif
+            if index(unite.source_names, 'file_rec') > -1
+              "imap <buffer> <LocalLeader>. <Plug>(unite_redraw)
+            else
+              "inoremap <buffer> <LocalLeader>.  **/
+            endif
+        endfunction
+        autocmd FileType unite call s:unite_settings()
+
+        if executable('ack')
+          " For file and file_rec
+        "  let g:unite_source_rec_async_command = 'ack -f --nofilter'
+        "  " Use ag in unite grep source.
+          let g:unite_source_grep_command = 'ack'
+          let g:unite_source_grep_default_opts = '-i --no-heading --no-color -k -H'
+          let g:unite_source_grep_recursive_opt = ''
+        endif
+    endif
+" }
+
+" TODO autocommand when edit .vimrc.* files, auto set ft=vim"
