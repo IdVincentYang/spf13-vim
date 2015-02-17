@@ -225,7 +225,7 @@
     endif
 
     if isdirectory(expand('~/.vim/bundle/YouCompleteMe'))
-        nnoremap <leader>jj :YcmCompleter GoToDefinitionElseDeclaration<CR>
+        nnoremap <leader>jj :YcmCompleter GoTo<CR>
     endif
 " }
 
