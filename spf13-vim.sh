@@ -135,6 +135,8 @@ create_symlinks() {
     lnif "$endpath/.vimrc.bundles"      "$HOME/.vimrc.bundles"
     lnif "$endpath/.vimrc.before"       "$HOME/.vimrc.before"
     lnif "$endpath/.vim"                "$HOME/.vim"
+    lnif "$endpath/snippets"            "$HOME/.vim/snippets"
+    lnif "$endpath/.ycm_extra_conf.py"  "$HOME/.vim/.ycm_extra_conf.py"
 
     # Useful for fork maintainers
     touch  "$HOME/.vimrc.local"

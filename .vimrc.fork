@@ -29,6 +29,11 @@
 " }
 
 " General {
+    " Windows has traditionally used cp1252, so it's probably wise to
+    " fallback into cp1252(Windows Latin-1) instead of eg. iso-8859-15.
+    " Newer Windows files might contain utf-8 or utf-16 LE so we might
+    " want to try them first.
+    set fileencodings=ucs-bom,utf-8,chinese,utf-16,cp1252,iso-8859-15
 
     set background=light
 
@@ -49,6 +54,10 @@
     set nofoldenable                  " close auto fold code
     "浏览档案的目录，GUI 版本始有。预设是上一次浏览的目录。就是 GUI版本功能表上的 [File] -> [Open] 会打开的目录。
     set bsdir=buffer
+
+    if has('statusline')
+        set fillchars+=stl:\|
+    endif
 " }
 
 " Formatting {
@@ -98,29 +107,25 @@
 " }
 
 " Plugins {
-
-    " MRU {
-        if exists(':MRU')
-            " let MRU_File = 'd:\myhome\_vim_mru_files' " default $HOME/.vim_mru_files for Unix-like systems and $USERPROFILE/_vim_mru_files
-            " for MS-Windows systems.
-            " let MRU_Max_Entries = 1000  " default is 100
-
-            " pumvisible() ? "\let" : "\let MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*'  " For Unix
-            " let MRU_Exclude_Files "= '^c:\\temp\\.*'           " For MS-Windows
-
-            " let MRU_Include_Files = '\.c$\|\.h$' "default is empty string
-
-            let MRU_Window_Height = 15 "default is 8"
-
-            " let MRU_Use_Current_Window = 1 " default is 0
-
-            " let MRU_Auto_Close = 0 " default is 1
-
-            " let MRU_Add_Menu = 0 " default 1
-            " let MRU_Max_Menu_Entries = 20  " default 10
-            " let MRU_Max_Submenu_Entries = 15 " default 10
+    if isdirectory(expand('~/.vim/bundle/vim-airline'))
+        if (g:airline_powerline_fonts)
+            if (OSX())
+                set guifont=Literation\ Mono\ Powerline:h12
+            endif
         endif
-    " }
+
+        " Add 光标处字符 Unicode 编码|tab长度|字符集|文件类型
+        " statusline syntax note: http://gundamew.logdown.com/posts/246352-vim-statusline-syntax-note
+        let g:airline_section_y = '0x%B|TS=%{&tabstop}|%{&fenc}[%{&ff}]'
+    endif
+
+    if isdirectory(expand('~/.vim/bundle/mru'))
+        let MRU_Window_Height = 15 "default is 8"
+    endif
+
+    if isdirectory(expand('~/.vim/bundle/gundo.vim'))
+        nmap <leader>u :GundoToggle<CR>
+    endif
 
     " Session List {
         "set sessionoptions-=black       "default,空窗口"
@@ -150,7 +155,7 @@
         let g:snips_author = 'Vincent Yang <idvincentyang@gmail.com>'
     " }
 
-    if exists(":Tabularize")    " tabular "
+    if isdirectory(expand('~/.vim/bundle/tabular'))
         function! s:align()
           let p = '^\s*|\s.*\s|\s*$'
           if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
@@ -165,8 +170,7 @@
         inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
     endif
 
-    if exists(':Unite') " Unite "
-
+    if isdirectory(expand('~/.vim/bundle/unite.vim'))
         let g:unite_source_history_yank_enable = 1
         " call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
@@ -218,6 +222,10 @@
           let g:unite_source_grep_default_opts = '-i --no-heading --no-color -k -H'
           let g:unite_source_grep_recursive_opt = ''
         endif
+    endif
+
+    if isdirectory(expand('~/.vim/bundle/YouCompleteMe'))
+        nnoremap <leader>jj :YcmCompleter GoToDefinitionElseDeclaration<CR>
     endif
 " }
 

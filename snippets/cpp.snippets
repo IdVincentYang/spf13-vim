@@ -1,0 +1,12 @@
+# class constructor
+snippet ctor
+	$1::${1:`vim_snippets#Filename('$1', 'ClassName')`}(${2}) {
+		${0}
+	}
+
+# class destructor
+snippet dtor
+	$1::~${1:`vim_snippets#Filename('$1', 'ClassName')`}() {
+		${0}
+	}
+

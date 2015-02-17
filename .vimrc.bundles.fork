@@ -31,11 +31,6 @@
                 " Let Vim use utf-8 internally, because many scripts require this
                 set encoding=utf-8
                 setglobal fileencoding=utf-8
-                " Windows has traditionally used cp1252, so it's probably wise to
-                " fallback into cp1252(Windows Latin-1) instead of eg. iso-8859-15.
-                " Newer Windows files might contain utf-8 or utf-16 LE so we might
-                " want to try them first.
-                set fileencodings=ucs-bom,utf-8,chinese,utf-16,cp1252,iso-8859-15
 
                 set fileformats=unix,mac,dos
             endif
@@ -52,7 +47,7 @@
         if count(g:spf13_bundle_groups, 'general')
             Bundle 'yegappan/mru'
             "Bundle 'acx0/Conque-shell'
-            "Bundle 'airblade/vim-gitgutter'
+            " undotree install of gundo"
             Bundle 'sjl/gundo.vim'
 
             " :Unite
@@ -62,10 +57,10 @@
 
             " UnBundle 'scrooloose/nerdtree'
             " UnBundle 'altercation/vim-colors-solarized'
-            " UnBundle 'spf13/vim-colors'
+            UnBundle 'spf13/vim-colors'
             " UnBundle 'tpope/vim-surround'
-            " UnBundle 'tpope/vim-repeat'
-            " UnBundle 'spf13/vim-autoclose'
+            UnBundle 'tpope/vim-repeat'
+            UnBundle 'spf13/vim-autoclose'
             UnBundle 'ctrlpvim/ctrlp.vim'
             UnBundle 'tacahiroy/ctrlp-funky'
             " UnBundle 'kristijanhusak/vim-multiple-cursors'
@@ -81,18 +76,18 @@
             UnBundle 'bling/vim-bufferline'
             " UnBundle 'Lokaltog/vim-easymotion'
             " UnBundle 'jistr/vim-nerdtree-tabs'
-            " UnBundle 'flazz/vim-colorschemes'
-            " UnBundle 'mbbill/undotree'
+            UnBundle 'flazz/vim-colorschemes'
+            UnBundle 'mbbill/undotree'
             " UnBundle 'nathanaelkane/vim-indent-guides'
             if !exists('g:spf13_no_views')
                 " UnBundle 'vim-scripts/restore_view.vim'
             endif
-            " UnBundle 'mhinz/vim-signify'
-            " UnBundle 'tpope/vim-abolish.git'
-            " UnBundle 'osyo-manga/vim-over'
-            " UnBundle 'kana/vim-textobj-user'
-            " UnBundle 'kana/vim-textobj-indent'
-            " UnBundle 'gcmt/wildfire.vim'
+            ""UnBundle 'mhinz/vim-signify'
+            UnBundle 'tpope/vim-abolish.git'
+            UnBundle 'osyo-manga/vim-over'
+            UnBundle 'kana/vim-textobj-user'
+            UnBundle 'kana/vim-textobj-indent'
+            UnBundle 'gcmt/wildfire.vim'
         endif
     " }
 
@@ -110,15 +105,16 @@
             Bundle 'vim-scripts/TaskList.vim'
             Bundle 'Valloric/ListToggle'
             Bundle 'thinca/vim-ref'
-            Bundle 'jalcine/cmake.vim'
+            Bundle 'jansenm/vim-cmake'
+            Bundle 'vim-scripts/vim-cmake-project'
 
             " Pick one of the checksyntax, jslint, or syntastic
             UnBundle 'scrooloose/syntastic'
             " UnBundle 'tpope/vim-fugitive'
-            " UnBundle 'mattn/webapi-vim'
+            UnBundle 'mattn/webapi-vim'
             " UnBundle 'mattn/gist-vim'
             " UnBundle 'scrooloose/nerdcommenter'
-            " UnBundle 'tpope/vim-commentary'
+            UnBundle 'tpope/vim-commentary'
             " UnBundle 'godlygeek/tabular'
             if executable('ctags')
                 " UnBundle 'majutsushi/tagbar'
