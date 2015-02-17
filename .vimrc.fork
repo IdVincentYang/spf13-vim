@@ -227,6 +227,18 @@
     if isdirectory(expand('~/.vim/bundle/YouCompleteMe'))
         nnoremap <leader>jj :YcmCompleter GoTo<CR>
     endif
+
+    if isdirectory(expand('~/.vim/bundle/ex-showmarks'))
+        let g:showmarks_enable = 1
+        let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+        " Ignore help, quickfix, non-modifiable buffers
+        let showmarks_ignore_type = "hqm"
+
+        " Hilight lower & upper marks
+        let showmarks_hlline_lower = 1
+        let showmarks_hlline_upper = 0
+    endif
 " }
 
 " TODO autocommand when edit .vimrc.* files, auto set ft=vim"

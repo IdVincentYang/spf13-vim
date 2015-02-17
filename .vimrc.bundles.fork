@@ -45,16 +45,6 @@
 
     " General {
         if count(g:spf13_bundle_groups, 'general')
-            Bundle 'yegappan/mru'
-            "Bundle 'acx0/Conque-shell'
-            " undotree install of gundo"
-            Bundle 'sjl/gundo.vim'
-
-            " :Unite
-            Bundle 'Shougo/unite.vim'
-            " vimproc need by unite.
-            Bundle 'Shougo/vimproc.vim'
-
             " UnBundle 'scrooloose/nerdtree'
             " UnBundle 'altercation/vim-colors-solarized'
             UnBundle 'spf13/vim-colors'
@@ -88,6 +78,22 @@
             UnBundle 'kana/vim-textobj-user'
             UnBundle 'kana/vim-textobj-indent'
             UnBundle 'gcmt/wildfire.vim'
+
+            Bundle 'yegappan/mru'
+            "Bundle 'acx0/Conque-shell'
+            " undotree install of gundo"
+            Bundle 'sjl/gundo.vim'
+            " Auto detect CJK and Unicode file encodings.
+            Bundle 'mbbill/fencview'
+            " highlight mark line in the left sign column.
+            Bundle 'exvim/ex-showmarks'
+            " making a column of increasing or decreasing numbers
+            Bundle 'exvim/ex-visincr'
+
+            " :Unite
+            Bundle 'Shougo/unite.vim'
+            " vimproc need by unite.
+            Bundle 'Shougo/vimproc.vim'
         endif
     " }
 
@@ -102,14 +108,6 @@
 
     " General Programming {
         if count(g:spf13_bundle_groups, 'programming')
-            Bundle 'a.vim'
-            Bundle 'jiangmiao/auto-pairs'
-            Bundle 'vim-scripts/TaskList.vim'
-            Bundle 'Valloric/ListToggle'
-            Bundle 'thinca/vim-ref'
-            Bundle 'jansenm/vim-cmake'
-            Bundle 'vim-scripts/vim-cmake-project'
-
             " Pick one of the checksyntax, jslint, or syntastic
             UnBundle 'scrooloose/syntastic'
             " UnBundle 'tpope/vim-fugitive'
@@ -121,6 +119,17 @@
             if executable('ctags')
                 " UnBundle 'majutsushi/tagbar'
             endif
+
+            Bundle 'a.vim'
+            Bundle 'jiangmiao/auto-pairs'
+            Bundle 'vim-scripts/TaskList.vim'
+            Bundle 'Valloric/ListToggle'
+            Bundle 'thinca/vim-ref'
+            Bundle 'jansenm/vim-cmake'
+            Bundle 'vim-scripts/vim-cmake-project'
+            " a better JSON for VIM
+            Bundle 'elzr/vim-json'
+
         endif
     " }
 
@@ -149,15 +158,25 @@
         endif
     " }
 
+    " Javascript {
+        if count(g:spf13_bundle_groups, 'javascript')
+            Bundle 'elzr/vim-json'
+            " Bundle 'groenewege/vim-less'
+            " Bundle 'pangloss/vim-javascript'
+            " Bundle 'briancollins/vim-jst'
+            " Bundle 'kchmck/vim-coffee-script'
+        endif
+    " }
+
     " Misc {
         if count(g:spf13_bundle_groups, 'misc')
-            " UnBundle 'wting/rust.vim'
+            UnBundle 'wting/rust.vim'
             " UnBundle 'tpope/vim-markdown'
             " UnBundle 'spf13/vim-preview'
-            " UnBundle 'tpope/vim-cucumber'
-            " UnBundle 'cespare/vim-toml'
-            " UnBundle 'quentindecock/vim-cucumber-align-pipes'
-            " UnBundle 'saltstack/salt-vim'
+            UnBundle 'tpope/vim-cucumber'
+            UnBundle 'cespare/vim-toml'
+            UnBundle 'quentindecock/vim-cucumber-align-pipes'
+            UnBundle 'saltstack/salt-vim'
         endif
     " }
 

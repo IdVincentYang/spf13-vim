@@ -57,6 +57,8 @@
     \   'general',
     \   'programming',
     \   'youcompleteme',
+    \   'javascript',
+    \   'misc',
     \  ]
 " }
 
