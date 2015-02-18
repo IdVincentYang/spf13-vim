@@ -84,7 +84,7 @@
             " undotree install of gundo"
             Bundle 'sjl/gundo.vim'
             " Auto detect CJK and Unicode file encodings.
-            Bundle 'mbbill/fencview'
+            "Bundle 'mbbill/fencview', to slow, disable default
             " highlight mark line in the left sign column.
             Bundle 'exvim/ex-showmarks'
             " making a column of increasing or decreasing numbers
