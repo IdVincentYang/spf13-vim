@@ -70,7 +70,7 @@
             UnBundle 'mbbill/undotree'
             " UnBundle 'nathanaelkane/vim-indent-guides'
             if !exists('g:spf13_no_views')
-                " UnBundle 'vim-scripts/restore_view.vim'
+                UnBundle 'vim-scripts/restore_view.vim'
             endif
             ""UnBundle 'mhinz/vim-signify'
             UnBundle 'tpope/vim-abolish.git'
@@ -127,8 +127,6 @@
             Bundle 'thinca/vim-ref'
             Bundle 'jansenm/vim-cmake'
             Bundle 'vim-scripts/vim-cmake-project'
-            " a better JSON for VIM
-            Bundle 'elzr/vim-json'
 
         endif
     " }
@@ -160,11 +158,11 @@
 
     " Javascript {
         if count(g:spf13_bundle_groups, 'javascript')
-            Bundle 'elzr/vim-json'
-            " Bundle 'groenewege/vim-less'
-            " Bundle 'pangloss/vim-javascript'
-            " Bundle 'briancollins/vim-jst'
-            " Bundle 'kchmck/vim-coffee-script'
+            " UnBundle 'elzr/vim-json'
+            UnBundle 'groenewege/vim-less'
+            UnBundle 'pangloss/vim-javascript'
+            UnBundle 'briancollins/vim-jst'
+            UnBundle 'kchmck/vim-coffee-script'
         endif
     " }
 
@@ -172,7 +170,7 @@
         if count(g:spf13_bundle_groups, 'misc')
             UnBundle 'wting/rust.vim'
             " UnBundle 'tpope/vim-markdown'
-            " UnBundle 'spf13/vim-preview'
+            UnBundle 'spf13/vim-preview'
             UnBundle 'tpope/vim-cucumber'
             UnBundle 'cespare/vim-toml'
             UnBundle 'quentindecock/vim-cucumber-align-pipes'

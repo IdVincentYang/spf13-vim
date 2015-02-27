@@ -43,6 +43,7 @@
 
     " Setting up the directories {
         set nobackup                  " Backups aren't need ...
+        set autoread
         set autowrite
         set formatoptions+=mMj          " let vim can break chinese and join
     " }
@@ -67,21 +68,24 @@
 
 " Key (re)Mappings {
     " fast reloading of .vimrc
-    nmap <silent> <leader>S :source $HOME/.vimrc<CR>
+    nnoremap <silent> <leader>S :source $MYVIMRC<CR>
+    nnoremap <leader>ee :e $HOME/.vimrc.fork<CR>
+    nnoremap <leader>eb :e $HOME/.vimrc.bundles.fork<CR>
+    nnoremap <leader>eB :e $HOME/.vimrc.before.fork<CR>
 
     " scroll page useing space
-    nmap <Space> <C-F>
-    nmap <S-Space> <C-B>
+    nnoremap <Space> <C-F>
+    nnoremap <S-Space> <C-B>
 
     " use ALT+[jk] to moving lines up and down
-    nmap <M-j> mz:m+<CR>`z
-    nmap <M-k> mz:m-2<CR>`z
+    nnoremap <M-j> mz:m+<CR>`z
+    nnoremap <M-k> mz:m-2<CR>`z
 
-    nmap <C-s-tab> :bp<CR>
-    nmap <C-tab> :bn<CR>
-    nmap <leader>Q :bd<CR>
-    nmap <leader>qq :bp\|bd#<CR>
-    nmap <leader>qa :bufdo bd<CR>
+    nnoremap <C-s-tab> :bp<CR>
+    nnoremap <C-tab> :bn<CR>
+    nnoremap <leader>Q :bd<CR>
+    nnoremap <leader>qq :bp\|bd#<CR>
+    nnoremap <leader>qa :bufdo bd<CR>
 
     command! BcloseOthers call <SID>BufCloseOthers()
     function! <SID>BufCloseOthers()
@@ -95,15 +99,49 @@
          endif
        endfor
     endfunction
-    nmap <leader>qo :BcloseOthers<CR>
+    nnoremap <leader>qo :BcloseOthers<CR>
 
     "使用CTRL+[hjkl]在窗口间导航
-    map <C-c> <C-W>c
-    map <C-j> <C-W>j
-    map <C-k> <C-W>k
-    map <C-h> <C-W>h
-    map <C-l> <C-W>l
+    noremap <C-c> <C-W>c
+    noremap <C-j> <C-W>j
+    noremap <C-k> <C-W>k
+    noremap <C-h> <C-W>h
+    noremap <C-l> <C-W>l
 
+    function! OpenInBrowser(file)
+        if !exists("g:my_chrome_path")
+            if OSX()
+                let g:my_chrome_path = '/Applications/Google Chrome.app/'
+            elseif WINDOWS()
+                let g:my_chrome_path = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+            endif
+        endif
+
+        if !exists('g:my_chrome_path')
+            echom 'Error: Please set g:my_chrome_path variable in your $MYVIMRC.'
+            return
+        endif
+
+        if !filereadable(g:my_chrome_path)
+            echom 'Found file not exist:' . g:my_chrome_path
+            echom 'Error: Please set g:my_chrome_path to locate chrome.'
+            return
+        endif
+
+        if !filereadable(a:file)
+            echom 'Can not open none exists file:' . a:file
+            return
+        endif
+
+        if WINDOWS()
+            let l:run = '!start'
+        else
+            let l:run = '!open -a '
+        endif
+
+        execute 'silent '.l:run.' "'.g:my_chrome_path.'" "'.a:file.'"'
+    endfunction
+    nnoremap <leader>P :call OpenInBrowser(expand("%:p"))<CR>
 " }
 
 " Plugins {
@@ -124,7 +162,7 @@
     endif
 
     if isdirectory(expand('~/.vim/bundle/gundo.vim'))
-        nmap <leader>u :GundoToggle<CR>
+        nnoremap <leader>u :GundoToggle<CR>
     endif
 
     " Session List {
@@ -190,15 +228,15 @@
         function! s:unite_settings()
             " Play nice with supertab
             "let b:SuperTabDisabled=1
-            nmap <buffer> <C-J> <Plug>(unite_loop_cursor_down)
-            nmap <buffer> <C-K> <Plug>(unite_loop_cursor_up)
-            imap <buffer> <C-J> <Plug>(unite_insert_leave)<C-J>
-            imap <buffer> <C-K> <Plug>(unite_insert_leave)<C-K>
-            nmap <buffer> <F5> <Plug>(unite_redraw)
-            imap <buffer> <F5> <Plug>(unite_redraw)
+            nnoremap <buffer> <C-J> <Plug>(unite_loop_cursor_down)
+            nnoremap <buffer> <C-K> <Plug>(unite_loop_cursor_up)
+            inoremap <buffer> <C-J> <Plug>(unite_insert_leave)<C-J>
+            inoremap <buffer> <C-K> <Plug>(unite_insert_leave)<C-K>
+            nnoremap <buffer> <F5> <Plug>(unite_redraw)
+            inoremap <buffer> <F5> <Plug>(unite_redraw)
 
-            "imap <buffer> <LocalLeader><BS> <Plug>(unite_delete_backward_path)
-            "imap <buffer> ; <Plug>(unite_delete_backward_word)
+            "inoremap <buffer> <LocalLeader><BS> <Plug>(unite_delete_backward_path)
+            "inoremap <buffer> ; <Plug>(unite_delete_backward_word)
             "inoremap <buffer><expr> <LocalLeader>/ unite#do_action('narrow')
 
             let unite = unite#get_current_unite()
@@ -207,7 +245,7 @@
               "inoremap <silent><buffer><expr> <LocalLeader><CR> unite#do_action('open')
             endif
             if index(unite.source_names, 'file_rec') > -1
-              "imap <buffer> <LocalLeader>. <Plug>(unite_redraw)
+              "inoremap <buffer> <LocalLeader>. <Plug>(unite_redraw)
             else
               "inoremap <buffer> <LocalLeader>.  **/
             endif
@@ -241,8 +279,8 @@
     endif
 
     if isdirectory(expand('~/.vim/bundle/vim-cmake-project'))
-        " Project Build
-        function! ProjectBuild()
+        " Generate Project
+        function! ProjectGen()
             if !exists("g:cmake_build_dir")
                 let g:cmake_build_dir = 'build'
             endif
@@ -251,11 +289,63 @@
             \   "enter build directory : " ,
             \   g:cmake_build_dir
             \   )
-        endfunction
 
-        " Project Make
-        
+            let build_dir_file_type = getftype(g:cmake_build_dir)
+            if (build_dir_file_type == "")
+                call mkdir(g:cmake_build_dir, "p")
+            elseif(build_dir_file_type != 'dir')
+                echo ' is not a directory!'
+                return
+            endif
+            let old_dir = getcwd()
+            try
+                execute 'CMakeGen '.g:cmake_build_dir
+            finally
+                execute 'cd '.old_dir
+            endtry
+        endfunction
+        nnoremap <leader>pg :call ProjectGen()<CR>
+
+        " Build Project
+        function! ProjectBuild()
+            if !exists("g:cmake_build_dir")
+                call ProjectGen()
+            elseif(!filereadable(expand(g:cmake_build_dir . '/Makefile')))
+                call ProjectGen()
+            endif
+
+            if !filereadable(expand(g:cmake_build_dir . '/Makefile'))
+                return
+            endif
+
+            execute '!pushd ' . g:cmake_build_dir . ' && make && popd'
+        endfunction
+        nnoremap <leader>pb :call ProjectBuild()<CR>
+
         " Project Run
+        function! ProjectRun()
+
+            call ProjectBuild()
+            if !filereadable(expand(g:cmake_build_dir . '/Makefile'))
+                return
+            endif
+
+            if !exists("g:cmake_app_name")
+                let g:cmake_app_name = ''
+            endif
+
+            let g:cmake_app_name = input(
+            \   "enter app name : " ,
+            \   g:cmake_app_name
+            \   )
+
+            let cmake_app_path = expand(g:cmake_build_dir.'/'.g:cmake_app_name)
+            if !filereadable(cmake_app_path)
+                return
+            endif
+            execute '!'.cmake_app_path.'&'
+        endfunction
+        nnoremap <leader>pr :call ProjectRun()<CR>
 
         " Project Debug
     endif
