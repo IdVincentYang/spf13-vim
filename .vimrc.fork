@@ -165,29 +165,6 @@
         nnoremap <leader>u :GundoToggle<CR>
     endif
 
-    " Session List {
-        "set sessionoptions-=black       "default,空窗口"
-        "set sessionoptions-=buffers     "default, 隐藏和卸载的缓冲区，不光是那些在窗口里的"
-        "set sessionoptions-=curdir      "default,当前目录"
-        "set sessionoptions-=folders     "default, 手动建立的折叠、打开/关闭的折叠和局部折叠选项"
-        "set sessionoptions+=globals     "大写字母开头且包含至少一个小写字母的全局变量。只保存字串和数值类型。"
-        "set sessionoptions-=help        "default,帮助窗口"
-        "set sessionoptions+=localoptions   "局部于窗口或缓冲区的选项和映射 (不是局部选项的全局值)"
-        "set sessionoptions-=options     "default,所有的选项和映射 (也包括局部选项的全局值)"
-        set sessionoptions+=resize      "Vim 窗口的大小: 'lines' 和 'columns'"
-        "set sessionoptions+=sesdir      "会话文件所在的目录会成为当前目录 (用于通过网络访问别的统的项目)"
-        set sessionoptions+=slash       "文件名里的反斜杠被替换成正斜杠"
-        "set sessionoptions-=tabpages    "default,所有标签页；如果不包含，只恢复当前标签页。这样你可以为每个标签页分别保存一个会话"
-        set sessionoptions+=unix        "使用 Unix 换行格式 (单个 <NL>)，即使在 Windows 或 DOS上也是如此"
-        "set sessionoptions+=winpos      "整个 Vim 窗口的位置"
-        "set sessionoptions-=winsize     "default,窗口大小"
-        "       不要同时包含 "curdir" 和 "sesdir"。
-        "       如果既没有包含 "curdir" 也没有包含 "sesdir"，使用绝对路径保存文件名。
-        "       "slash" 和 "unix" 可用于 Windows 系统中，如果要和 Unix 共享会话文件的
-        "       话。Unix 版本的 Vim 不能执行 dos 格式的脚本，但是 Windows 版本的 Vim
-        "       可以执行 unix 版本的脚本。
-    " }
-
     " SnipMate {
         " Setting the author var
         let g:snips_author = 'Vincent Yang <idvincentyang@gmail.com>'
@@ -228,12 +205,12 @@
         function! s:unite_settings()
             " Play nice with supertab
             "let b:SuperTabDisabled=1
-            nnoremap <buffer> <C-J> <Plug>(unite_loop_cursor_down)
-            nnoremap <buffer> <C-K> <Plug>(unite_loop_cursor_up)
-            inoremap <buffer> <C-J> <Plug>(unite_insert_leave)<C-J>
-            inoremap <buffer> <C-K> <Plug>(unite_insert_leave)<C-K>
-            nnoremap <buffer> <F5> <Plug>(unite_redraw)
-            inoremap <buffer> <F5> <Plug>(unite_redraw)
+            nmap <buffer> <C-J> <Plug>(unite_loop_cursor_down)
+            nmap <buffer> <C-K> <Plug>(unite_loop_cursor_up)
+            imap <buffer> <C-J> <Plug>(unite_insert_leave)
+            imap <buffer> <C-K> <Plug>(unite_insert_leave)kk
+            nmap <buffer> <F5> <Plug>(unite_redraw)
+            imap <buffer> <F5> <Plug>(unite_redraw)
 
             "inoremap <buffer> <LocalLeader><BS> <Plug>(unite_delete_backward_path)
             "inoremap <buffer> ; <Plug>(unite_delete_backward_word)
@@ -318,7 +295,9 @@
                 return
             endif
 
-            execute '!pushd ' . g:cmake_build_dir . ' && make && popd'
+            execute 'cd '.g:cmake_build_dir
+            make
+            cd-
         endfunction
         nnoremap <leader>pb :call ProjectBuild()<CR>
 
