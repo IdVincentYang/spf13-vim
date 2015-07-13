@@ -126,7 +126,7 @@
             Bundle 'Valloric/ListToggle'
             Bundle 'thinca/vim-ref'
             Bundle 'jansenm/vim-cmake'
-            Bundle 'vim-scripts/vim-cmake-project'
+            Bundle 'Ignotus/vim-cmake-project'
 
         endif
     " }
